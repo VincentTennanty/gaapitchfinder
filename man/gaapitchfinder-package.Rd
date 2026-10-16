@@ -14,7 +14,6 @@ Provides Gaelic Athletic Association (GAA) pitch location data for Ireland and a
 Useful links:
 \itemize{
   \item \url{https://github.com/VincentTennanty/gaapitchfinder}
-  \item \url{https://VincentTennanty.github.io/gaapitchfinder}
   \item Report bugs at \url{https://github.com/VincentTennanty/gaapitchfinder/issues}
 }
 

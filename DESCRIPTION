@@ -2,7 +2,7 @@ Package: gaapitchfinder
 Type: Package
 Title: GAA Pitch Location Data and Geospatial Analysis Tools
 Version: 0.1.0
-Date: 2025-05-05
+Date: 2026-10-16
 Authors@R: c(
     person("Vincent", "Tennanty", email = "vinny93@live.co.uk", role = c("aut", "cre")),
     person("Ryan", "McGuinness", role = "ctb", comment = "Original GAA Pitch Finder data")
@@ -32,5 +32,5 @@ Suggests:
     DT
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
-URL: https://github.com/VincentTennanty/gaapitchfinder, https://VincentTennanty.github.io/gaapitchfinder
+URL: https://github.com/VincentTennanty/gaapitchfinder
 BugReports: https://github.com/VincentTennanty/gaapitchfinder/issues

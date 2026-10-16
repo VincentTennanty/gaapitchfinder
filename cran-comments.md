@@ -1,3 +1,11 @@
+## Resubmission
+
+This is a resubmission. Changes since the previous submission:
+
+* Removed invalid URL (https://VincentTennanty.github.io/gaapitchfinder) from
+  DESCRIPTION and package documentation — the pkgdown site is not yet deployed.
+* Updated the Date field in DESCRIPTION.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
@@ -5,6 +13,11 @@
 * This is a new submission.
 
 ## Notes
+
+* Possibly misspelled words: 'GAA' is the standard abbreviation for Gaelic
+  Athletic Association, the governing body of Gaelic games in Ireland.
+  'Geospatial' is a standard technical term in spatial analysis.
+  These are not misspellings.
 
 * The dataset (`gaa_pitches`) is sourced from the GAA Pitch Finder project
   (https://gaapitchfinder.com) by Ryan McGuinness, licensed under CC BY 4.0.
@@ -16,8 +29,8 @@
 ## Test environments
 
 * Windows 11, R 4.3.3 (local)
-* R-hub Windows Server 2022
-* R-hub Ubuntu Linux
+* R-hub r-devel-linux-x86_64-debian-gcc
+* R-hub r-devel-windows-x86_64
 
 ## Downstream dependencies
 
