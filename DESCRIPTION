@@ -32,5 +32,5 @@ Suggests:
     DT
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
-URL: https://github.com/ryanmcg2203/gaapitchfinder, https://ryanmcg2203.github.io/gaapitchfinder
-BugReports: https://github.com/ryanmcg2203/gaapitchfinder/issues
+URL: https://github.com/VincentTennanty/gaapitchfinder, https://VincentTennanty.github.io/gaapitchfinder
+BugReports: https://github.com/VincentTennanty/gaapitchfinder/issues
