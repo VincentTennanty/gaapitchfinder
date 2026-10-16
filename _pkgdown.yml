@@ -1,0 +1,19 @@
+url: https://ryanmcg2203.github.io/gaapitchfinder
+
+template:
+  bootstrap: 5
+
+navbar:
+  title: gaapitchfinder
+  left:
+    - text: "Get Started"
+      href: articles/getting-started.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+
+home:
+  links:
+    - text: GAA Pitch Finder
+      href: https://gaapitchfinder.com

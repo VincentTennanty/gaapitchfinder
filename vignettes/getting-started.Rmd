@@ -1,0 +1,173 @@
+---
+title: "Getting Started with gaapitchfinder"
+output:
+  rmarkdown::html_document:
+    self_contained: true
+vignette: >
+  %\VignetteIndexEntry{Getting Started with gaapitchfinder}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Introduction
+
+The **gaapitchfinder** package provides GAA (Gaelic Athletic Association) pitch location data and geospatial analysis tools for Ireland and around the world. With over 1,990 pitch locations, the package lets you search for pitches by name or county, find the nearest pitch to any coordinate, discover all pitches within a radius, and visualise results on an interactive map — all entirely offline after installation.
+
+## Load the Package
+
+```{r setup}
+library(gaapitchfinder)
+library(sf)
+library(dplyr)
+```
+
+## The GAA Pitches Dataset
+
+The core of the package is `gaa_pitches`, a spatial (`sf`) dataset with WGS84 coordinates (EPSG:4326). Each row represents one pitch and includes the club name, pitch name, county, province, country, latitude, longitude, elevation, annual rainfall, and links to Google Maps directions, Twitter, and Wikipedia where available.
+
+```{r}
+data(gaa_pitches)
+
+knitr::kable(
+  head(st_drop_geometry(gaa_pitches)[, c("club", "pitch", "county", "province", "country")]),
+  caption = "GAA Pitches Dataset (first 6 rows)"
+)
+```
+
+The dataset spans all four Irish provinces as well as international GAA clubs. The table below shows the breakdown by province — use the search box to filter or click the column headers to sort.
+
+```{r}
+DT::datatable(
+  as.data.frame(table(Province = gaa_pitches$province)),
+  caption = "Pitches by Province",
+  options = list(pageLength = 10, scrollY = "300px", dom = "tip"),
+  rownames = FALSE
+)
+```
+
+## Searching for Pitches
+
+`find_pitch()` performs a case-insensitive partial match across pitch names, club names, and county names. This makes it easy to find a specific ground, browse all clubs in a county, or search by a partial Irish-language name.
+
+```{r}
+croke_park <- find_pitch("Croke Park")
+
+knitr::kable(
+  st_drop_geometry(croke_park)[, c("club", "pitch", "county", "latitude", "longitude")],
+  caption = "Croke Park Search Results"
+)
+```
+
+```{r}
+cork_pitches <- find_pitch("Cork")
+
+knitr::kable(
+  head(st_drop_geometry(cork_pitches)[, c("club", "pitch", "county")]),
+  caption = paste("Cork Pitches —", nrow(cork_pitches), "total (showing first 6)")
+)
+```
+
+## Finding Nearest Pitches
+
+`nearest_pitch()` takes a latitude and longitude and returns the `n` closest pitches, sorted by distance. A `distance_km` column is added to the result so you can immediately see how far each pitch is from your location. This is useful for finding the closest training ground, planning a route, or building accessibility analyses.
+
+```{r}
+nearest_five <- nearest_pitch(lat = 53.3498, lon = -6.2603, n = 5)
+
+knitr::kable(
+  st_drop_geometry(nearest_five)[, c("club", "pitch", "county", "distance_km")],
+  caption = "5 Nearest Pitches to Dublin City Centre",
+  digits = 2
+)
+```
+
+The map below shows those five pitches — click any marker to see the club and pitch name.
+
+```{r}
+plot_pitches(nearest_five)
+```
+
+## Finding Pitches Within a Radius
+
+`pitches_within_radius()` returns every pitch within a given distance (in kilometres) of a coordinate, sorted nearest first. This is ideal for catchment area analysis, identifying clusters of pitches, or understanding how well-served a community is.
+
+```{r}
+nearby <- pitches_within_radius(lat = 53.3498, lon = -6.2603, radius = 10)
+
+knitr::kable(
+  st_drop_geometry(nearby)[, c("club", "pitch", "county", "distance_km")],
+  caption = paste("Pitches within 10km of Dublin City Centre —", nrow(nearby), "found"),
+  digits = 2
+)
+```
+
+```{r}
+plot_pitches(nearby)
+```
+
+## County-Level Summary
+
+`county_summary()` aggregates pitch counts by county and optionally filters to a single province. This gives a quick overview of GAA infrastructure density across Ireland and is useful for comparing counties or identifying areas with fewer facilities.
+
+```{r}
+DT::datatable(
+  county_summary(),
+  caption = "GAA Pitches by County",
+  options = list(pageLength = 10, scrollY = "400px", dom = "ftipr"),
+  rownames = FALSE
+)
+```
+
+You can also filter to a specific province:
+
+```{r}
+DT::datatable(
+  county_summary(province = "Munster"),
+  caption = "GAA Pitches in Munster",
+  options = list(pageLength = 10, dom = "tip"),
+  rownames = FALSE
+)
+```
+
+## Visualising Pitch Locations
+
+`plot_pitches()` renders an interactive OpenStreetMap-based leaflet map. Every marker is clickable and shows the club name, pitch name, and county. You can zoom, pan, and explore the full dataset spatially. Pass a `color` column to visually distinguish pitches by province, county, or any other categorical variable in the dataset.
+
+```{r}
+# All pitches in Ireland coloured by province
+plot_pitches(gaa_pitches, color = "province")
+```
+
+```{r}
+# Pitches within 20km of Galway city
+galway_area <- pitches_within_radius(lat = 53.2707, lon = -9.0568, radius = 20)
+plot_pitches(galway_area, color = "county")
+```
+
+## Working with Tidyverse
+
+Because `gaa_pitches` is a standard data frame (with an sf geometry column), it works seamlessly with dplyr and the wider tidyverse. Drop the geometry with `st_drop_geometry()` when you only need tabular analysis.
+
+```{r}
+munster_summary <- gaa_pitches %>%
+  st_drop_geometry() %>%
+  filter(province == "Munster") %>%
+  group_by(county) %>%
+  summarise(pitch_count = n(), avg_elevation = round(mean(elevation, na.rm = TRUE), 1)) %>%
+  arrange(desc(pitch_count))
+
+knitr::kable(munster_summary, caption = "Munster Pitches by County with Average Elevation")
+```
+
+## Data Attribution
+
+The pitch location data is sourced from the [GAA Pitch Finder](https://gaapitchfinder.com) project by Ryan McGuinness, licensed under CC BY 4.0. If you use this data in your work, please credit "GAA Pitch Finder by Ryan McGuinness" and link to [gaapitchfinder.com](https://gaapitchfinder.com).

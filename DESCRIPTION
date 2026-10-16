@@ -1,0 +1,35 @@
+Package: gaapitchfinder
+Type: Package
+Title: GAA Pitch Location Data and Geospatial Analysis Tools
+Version: 0.1.0
+Authors@R: c(
+    person("Vincent", "Tennanty", email = "vinny93@live.co.uk", role = c("aut", "cre")),
+    person("Ryan", "McGuinness", role = "ctb", comment = "Original GAA Pitch Finder data")
+    )
+Description: Provides Gaelic Athletic Association (GAA) pitch location data 
+    for Ireland and around the world, along with geospatial analysis functions. 
+    Enables users to search for pitches, find nearest locations, calculate 
+    distances, and visualize spatial patterns. The package includes a built-in 
+    dataset of GAA pitch locations with coordinates, club information, and 
+    geographic metadata. All functions work entirely offline after installation.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.5.0)
+Imports:
+    sf (>= 1.0.0),
+    dplyr (>= 1.0.0),
+    ggplot2 (>= 3.3.0),
+    magrittr,
+    leaflet (>= 2.0.0)
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    kableExtra,
+    DT
+RoxygenNote: 7.3.2
+VignetteBuilder: knitr
+URL: https://github.com/ryanmcg2203/gaapitchfinder, https://ryanmcg2203.github.io/gaapitchfinder
+BugReports: https://github.com/ryanmcg2203/gaapitchfinder/issues
