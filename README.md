@@ -21,7 +21,7 @@ You can install the development version of gaapitches from GitHub:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("yourusername/gaapitchfinder")
+devtools::install_github("VincentTennanty/gaapitchfinder")
 ```
 
 ## Quick Start
