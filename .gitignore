@@ -49,5 +49,9 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
+# R CMD check artefacts
+Rplots.pdf
+*.Rcheck/
+
 # Data files
 data-raw/*.csv
