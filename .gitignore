@@ -49,6 +49,21 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
+# Dev and AI scaffolding files
+.kiro/
+build.bat
+make_hex.bat
+build-commands.R
+setup-manual.R
+setup-package.R
+BUILD_CHECKLIST.md
+README_FIRST.md
+PACKAGE_SUMMARY.md
+FIX_PERMISSION_ERROR.md
+INSTALL.md
+TROUBLESHOOTING.md
+QUICKSTART.md
+
 # R CMD check artefacts
 Rplots.pdf
 *.Rcheck/
